@@ -38,14 +38,14 @@ public class AlunoService {
         resp.setId(aluno.getId());
         resp.setNome(req.getNome());
         resp.setEmail(req.getEmail());
-        resp.setIdCursos(req.getIdCursos());
+        resp.setCursos(cursos);
         return  resp;
     }
 
     public List<AlunoResp>  findAll(){
         List<Alunos> alunos = alunoRepository.findAll();
         List<AlunoResp> resp = new ArrayList<>();
-        List<Long> cursoResp = new ArrayList<>();
+        Set<Cursos> cursoResp = new HashSet<>();
         for (Alunos aluno : alunos) {
             AlunoResp resp1 = new AlunoResp();
             resp1.setId(aluno.getId());
@@ -54,7 +54,7 @@ public class AlunoService {
             for (Cursos curso : aluno.getCursos()) {
                cursoResp.add(curso.getId());
             }
-            resp1.setIdCursos(cursoResp);
+            resp1.setCursos(cursoResp);
             resp.add(resp1);
         }
         return resp;
@@ -62,7 +62,7 @@ public class AlunoService {
 
     public AlunoResp getById(Long id){
         Alunos aluno = alunoRepository.findById(id).orElseThrow();
-        List<Long> cursoResp = new ArrayList<>();
+        Set<Long> cursoResp = new HashSet<>();
         AlunoResp resp = new AlunoResp();
         resp.setId(aluno.getId());
         resp.setNome(aluno.getNome());
@@ -70,7 +70,7 @@ public class AlunoService {
         for (Cursos curso : aluno.getCursos()) {
             cursoResp.add(curso.getId());
         }
-        resp.setIdCursos(cursoResp);
+        resp.setCursos(cursoResp);
         return resp;
     }
 
@@ -89,7 +89,7 @@ public class AlunoService {
         resp.setId(aluno.getId());
         resp.setNome(req.getNome());
         resp.setEmail(req.getEmail());
-        resp.setIdCursos(req.getIdCursos());
+        resp.setCursos(cursos);
         return  resp;
     }
 

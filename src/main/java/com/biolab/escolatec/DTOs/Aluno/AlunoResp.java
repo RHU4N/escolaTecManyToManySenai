@@ -1,5 +1,6 @@
 package com.biolab.escolatec.DTOs.Aluno;
 
+import com.biolab.escolatec.entities.Cursos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +23,5 @@ public class AlunoResp {
     @Email
     private String email;
     @NotNull
-    private List<Long> idCursos;
+    private Set<Cursos> Cursos;
 }

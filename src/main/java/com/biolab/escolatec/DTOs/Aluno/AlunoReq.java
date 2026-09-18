@@ -9,15 +9,19 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//Dto de requisição
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlunoReq {
+
     @NotBlank
     private String nome;
+
     @Email
     @NotBlank
     private String email;
+
     @NotNull
     private List<Long> idCursos;
 }

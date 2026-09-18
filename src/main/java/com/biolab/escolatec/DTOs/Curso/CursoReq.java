@@ -8,14 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//DTO de requisição
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CursoReq {
+
     @NotBlank
     private String nome;
+
     @NotBlank
     private String cargaHoraria;
+
     @NotNull
-    private List<Long> idAlunos;
+    private List<Long> idAlunos; //id pra procurar
 }

@@ -22,11 +22,14 @@ public class AlunoController {
     //Post para criar
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid AlunoReq alunoReq) {
-        if (alunoService.create(alunoReq) == null) {
+        var aluno = alunoService.create(alunoReq); //pra ele se virar pra descobri o tipo usa var
+
+        //testa o q veio pra rtesponder
+        if (aluno == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Curso não encontrado");
         }
         else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(alunoService.create(alunoReq));
+            return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
         }
 
     }
@@ -40,10 +43,13 @@ public class AlunoController {
     //get por id
     @GetMapping("/{id}")
     public ResponseEntity<?> readById(@PathVariable Long id) {
-        if (alunoService.getById(id) == null) {
+
+        var aluno = alunoService.getById(id);
+
+        if (aluno == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado");
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(alunoService.getById(id));
+            return ResponseEntity.status(HttpStatus.OK).body(aluno);
         }
 
     }
@@ -51,10 +57,12 @@ public class AlunoController {
     //put pra atualizar
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid AlunoReq alunoReq) {
-        if (alunoService.update(id, alunoReq) == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Curso ou aluno não encontrado");
+        var aluno = alunoService.update(id, alunoReq);
+
+        if (aluno == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso ou aluno não encontrado");
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(alunoService.update(id, alunoReq));
+            return ResponseEntity.status(HttpStatus.OK).body(aluno);
         }
 
     }
@@ -63,10 +71,11 @@ public class AlunoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
-        if (alunoService.delete(id) == null) {
+        var aluno = alunoService.delete(id);
+
+        if (aluno == null) {
             return ResponseEntity.badRequest().body("Aluno não encontrado");
         }else {
-            alunoService.delete(id);//faz a função
             return ResponseEntity.noContent().build();//http code
         }
 

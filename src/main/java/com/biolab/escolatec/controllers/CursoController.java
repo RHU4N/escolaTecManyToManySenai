@@ -22,10 +22,12 @@ public class CursoController {
     //post pra criar
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid CursoReq cursoReq) {
-        if (cursoService.create(cursoReq) == null) {
+        var curso = cursoService.create(cursoReq);  //var pra ele se adaptar ao tipo
+
+        if (curso == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Aluno nao encontrado");
         }else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(cursoService.create(cursoReq));
+            return ResponseEntity.status(HttpStatus.CREATED).body(curso);
         }
     }
 
@@ -38,20 +40,24 @@ public class CursoController {
     //get pra ler com id
     @GetMapping("/{id}")
     public ResponseEntity<?> readById(@PathVariable Long id) {
-        if (cursoService.getById(id) == null) {
+        var curso = cursoService.getById(id);
+
+        if (curso == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso nao encontrado");
         }else {
-            return ResponseEntity.ok(cursoService.getById(id));
+            return ResponseEntity.ok().body(curso);
         }
     }
 
     //put pra atualizar
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid CursoReq cursoReq, @PathVariable Long id) {
-        if (cursoService.getById(id) == null) {
+        var curso = cursoService.update(id,cursoReq);
+
+        if (curso == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso ou Aluno nao encontrado ");
         }else {
-            return ResponseEntity.ok(cursoService.getById(id));
+            return ResponseEntity.ok().body(curso);
         }
 
     }
@@ -59,10 +65,13 @@ public class CursoController {
     //deleta
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        if (cursoService.getById(id) == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso nao encontrado ");
-        }else {
-            cursoService.delete(id);
+        var curso = cursoService.delete(id);
+
+        if (curso == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Curso nao encontrado");
+        } else {
             return ResponseEntity.noContent().build();
         }
 

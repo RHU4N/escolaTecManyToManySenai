@@ -32,6 +32,19 @@ public class CursoService {
 
         Cursos curso = new Cursos();
 
+        //Aqui começa o role pq o outro é o principal
+        Set<Alunos> alunos = new HashSet<>();
+
+        for (Long id : cursoReq.getIdAlunos()) {
+
+            if (!alunoRepository.existsById(id)) {
+                return null;
+            }
+
+            Alunos aluno = alunoRepository.findById(id).get();
+
+            alunos.add(aluno);
+        }
         //pega os dados
         curso.setNome(cursoReq.getNome());
         curso.setCargaHoraria(cursoReq.getCargaHoraria());
@@ -39,30 +52,12 @@ public class CursoService {
         // Salva primeiro para gerar o ID do curso
         cursoRepository.save(curso);
 
-        //Aqui começa o role pq o outro é o principal
-        Set<Alunos> alunos = new HashSet<>();
+        //associação pois o outro é o principal
+        for (Alunos aluno : alunos) {
 
-        //primeiro ele pega os id dentro de um forerch
-        for (Long id : cursoReq.getIdAlunos()) {
-
-            // Verifica se o aluno existe
-            if (!alunoRepository.existsById(id)) {
-                return null;
-            }
-
-            // Pega o aluno
-            Alunos aluno = alunoRepository.findById(id).get();
-
-            // Lado dono da relação
             aluno.getCursos().add(curso);
-
-            // Mantém os dois lados sincronizados qual era a dificuldade dos caras lá fazer isso automatico
             curso.getAlunos().add(aluno);
 
-            //adiciona a lista de alunos para salvar isso em aluno e deixar tudo sincronizado pq esse lado não é principal
-            alunos.add(aluno);
-
-            //salva
             alunoRepository.save(aluno);
         }
 

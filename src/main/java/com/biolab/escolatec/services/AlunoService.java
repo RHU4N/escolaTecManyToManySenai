@@ -139,8 +139,12 @@ public class AlunoService {
 
     //deleta
     public String delete(Long id){
-        Alunos aluno = alunoRepository.findById(id).orElse(null);//lembre do orElse sem if aqui
-        alunoRepository.delete(aluno);
+        //ve se existe
+        if (!alunoRepository.existsById(id)) {
+            return null;
+        }
+        Alunos aluno = alunoRepository.findById(id).get(); //pega valor
+        alunoRepository.delete(aluno); //deleta
         return "Aluno deletado com sucesso";
     }
 

@@ -2,6 +2,7 @@ package com.biolab.escolatec.services;
 
 import com.biolab.escolatec.DTOs.Aluno.AlunoReq;
 import com.biolab.escolatec.DTOs.Aluno.AlunoResp;
+import com.biolab.escolatec.DTOs.Curso.CursoResp;
 import com.biolab.escolatec.entities.Alunos;
 import com.biolab.escolatec.entities.Cursos;
 import com.biolab.escolatec.repositories.AlunoRepository;
@@ -25,7 +26,7 @@ public class AlunoService {
 
     public AlunoResp create(AlunoReq req){
         Alunos aluno = new Alunos();
-        List<Cursos> cursos = new ArrayList<>();
+        Set<Cursos> cursos = new HashSet<>();
         aluno.setNome(req.getNome());
         aluno.setEmail(req.getEmail());
         req.getIdCursos().forEach(id -> {
@@ -51,9 +52,7 @@ public class AlunoService {
             resp1.setId(aluno.getId());
             resp1.setNome(aluno.getNome());
             resp1.setEmail(aluno.getEmail());
-            for (Cursos curso : aluno.getCursos()) {
-               cursoResp.add(curso.getId());
-            }
+            cursoResp.addAll(aluno.getCursos());
             resp1.setCursos(cursoResp);
             resp.add(resp1);
         }
@@ -62,14 +61,12 @@ public class AlunoService {
 
     public AlunoResp getById(Long id){
         Alunos aluno = alunoRepository.findById(id).orElseThrow();
-        Set<Long> cursoResp = new HashSet<>();
+        Set<Cursos> cursoResp = new HashSet<>();
         AlunoResp resp = new AlunoResp();
         resp.setId(aluno.getId());
         resp.setNome(aluno.getNome());
         resp.setEmail(aluno.getEmail());
-        for (Cursos curso : aluno.getCursos()) {
-            cursoResp.add(curso.getId());
-        }
+        cursoResp.addAll(aluno.getCursos());
         resp.setCursos(cursoResp);
         return resp;
     }

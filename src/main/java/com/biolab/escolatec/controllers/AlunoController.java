@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("aluno")
+@RequestMapping("/aluno")
 public class AlunoController {
+
     private final AlunoService alunoService;
 
     public AlunoController(AlunoService alunoService) {
@@ -18,27 +18,56 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid AlunoReq alunoReq) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(alunoService.create(alunoReq));
+    public ResponseEntity<?> create(
+            @RequestBody @Valid AlunoReq alunoReq) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(alunoService.create(alunoReq));
     }
 
     @GetMapping
     public ResponseEntity<?> read() {
-        return ResponseEntity.status(HttpStatus.OK).body(alunoService.findAll());
+
+        return ResponseEntity.ok(
+                alunoService.findAll()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> readById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(alunoService.getById(id));
+    public ResponseEntity<?> readById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                alunoService.getById(id)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid AlunoReq alunoReq) {
-        return ResponseEntity.status(HttpStatus.OK).body(alunoService.update(id, alunoReq));
+    public ResponseEntity<?> update(
+            @PathVariable Long id,
+            @RequestBody @Valid AlunoReq alunoReq) {
+
+        return ResponseEntity.ok(
+                alunoService.update(id, alunoReq)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(alunoService.delete(id));
+    public ResponseEntity<?> delete(
+            @PathVariable Long id) {
+
+        alunoService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/cursos")
+    public ResponseEntity<?> getCursos(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                alunoService.getCursos(id)
+        );
     }
 }

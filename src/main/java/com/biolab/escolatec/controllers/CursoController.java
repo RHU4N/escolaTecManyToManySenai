@@ -8,8 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("Curso")
+@RequestMapping("/curso")
 public class CursoController {
+
     private final CursoService cursoService;
 
     public CursoController(CursoService cursoService) {
@@ -17,30 +18,56 @@ public class CursoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CursoReq cursoReq) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cursoService.create(cursoReq));
+    public ResponseEntity<?> create(
+            @RequestBody @Valid CursoReq cursoReq) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(cursoService.create(cursoReq));
     }
 
     @GetMapping
-    public ResponseEntity<?> read(@RequestParam Long id) {
-        return ResponseEntity.ok(cursoService.getAll());
+    public ResponseEntity<?> read() {
+
+        return ResponseEntity.ok(
+                cursoService.getAll()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> readById(@PathVariable Long id) {
-        return ResponseEntity.ok(cursoService.getById(id));
+    public ResponseEntity<?> readById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                cursoService.getById(id)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid CursoReq cursoReq, @PathVariable Long id) {
-        return ResponseEntity.ok(cursoService.update(id, cursoReq));
+    public ResponseEntity<?> update(
+            @RequestBody @Valid CursoReq cursoReq,
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                cursoService.update(id, cursoReq)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(
+            @PathVariable Long id) {
+
         cursoService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}/alunos")
+    public ResponseEntity<?> getAlunos(
+            @PathVariable Long id) {
 
+        return ResponseEntity.ok(
+                cursoService.getAlunos(id)
+        );
+    }
 }
